@@ -71,7 +71,7 @@ func (c *transactionHandler) TransactionReport(ctx *gin.Context) {
 		return
 	}
 	authHeader := ctx.GetHeader("Authorization")
-	token := c.jwtService.ValidateToken(authHeader, ctx)
+	token, _ := c.jwtService.ValidateToken(authHeader, ctx)
 	claims := token.Claims.(jwt.MapClaims)
 	userID := fmt.Sprintf("%v", claims["user_id"])
 	id ,_  := strconv.Atoi(userID)

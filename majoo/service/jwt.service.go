@@ -12,7 +12,7 @@ import (
 //JWTService is a contract of what jwtService can do
 type JWTService interface {
 	GenerateToken(userID string) string
-	ValidateToken(token string, ctx *gin.Context) *jwt.Token
+	ValidateToken(token string, ctx *gin.Context) (*jwt.Token, error)
 }
 
 type jwtCustomClaim struct {
@@ -58,7 +58,7 @@ func (j *jwtService) GenerateToken(UserID string) string {
 	return t
 }
 
-func (j *jwtService) ValidateToken(token string, ctx *gin.Context) *jwt.Token {
+func (j *jwtService) ValidateToken(token string, ctx *gin.Context) (*jwt.Token, error) {
 	t, err := jwt.Parse(token, func(t_ *jwt.Token) (interface{}, error) {
 		if _, ok := t_.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method %v", t_.Header["alg"])
@@ -67,9 +67,9 @@ func (j *jwtService) ValidateToken(token string, ctx *gin.Context) *jwt.Token {
 	})
 
 	if err != nil {
-		return nil
+		return nil, err
 	}
 
-	return t
+	return t, nil
 
 }
