@@ -1,0 +1,119 @@
+definitions:
+  dto.LoginRequest:
+    properties:
+      password:
+        type: string
+      user_name:
+        type: string
+    type: object
+  dto.RegisterRequest:
+    properties:
+      name:
+        type: string
+      password:
+        type: string
+      user_name:
+        type: string
+    type: object
+  response.Response:
+    properties:
+      data: {}
+      errors: {}
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
+info:
+  contact: {}
+paths:
+  /api/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login
+      operationId: Login
+      parameters:
+      - description: request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Login
+  /api/auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register
+      operationId: Register
+      parameters:
+      - description: request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Register
+  /transaction/{dateFrom}/{dateTo}/page/limit:
+    get:
+      consumes:
+      - application/json
+      description: Get data transaction
+      operationId: Transaction
+      parameters:
+      - description: datefrom of the transaction to be find
+        in: path
+        name: dateFrom
+        required: true
+        type: string
+      - description: dateto of the transaction to be find
+        in: path
+        name: dateTo
+        required: true
+        type: string
+      - description: page of the transaction to be find
+        in: path
+        name: page
+        required: true
+        type: string
+      - description: limit per page of the transaction to be find
+        in: path
+        name: limit
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Transaction Report
+swagger: "2.0"
